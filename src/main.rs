@@ -21,7 +21,7 @@ impl Task{
     
     fn display(&self) -> String {
         let status = if self.completed { "[x]" } else { "[ ]" };
-        format!("{} {}", status, self.description)
+        format!("{} {} {}", self.id, self.description, status)
     }
 
     fn mark_completed(&mut self) {
@@ -58,8 +58,9 @@ fn main() {
         Some("add") => {
             if args.len() > 2 {
                 let description = args[2..].join(" ");
-                let task = Task::new(tasks.len() as u32, description);
+                let task = Task::new((tasks.len() + 1) as u32, description);
                 tasks.push(task.clone());
+                save_tasks(&tasks);
                 println!("Added task: {}", task.description);
             } else {
                 println!("Please provide a task to add.");
